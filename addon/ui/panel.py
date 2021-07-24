@@ -44,3 +44,4 @@ def popover(self, context: bpy.types.Context):
     panel = MainPanel.bl_idname
     icon = icons.id('simple-tabs')
     layout.popover(panel, text='', icon_value=icon)
+    layout.operator('simpletabs.update', text='', icon='CHECKMARK')
