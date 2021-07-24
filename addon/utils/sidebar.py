@@ -2,6 +2,7 @@ import bpy
 import inspect
 import traceback
 from .. import utils
+from ..props.prefs import AddonPrefs
 
 
 def tab(panel: bpy.types.Panel) -> str:
@@ -113,20 +114,23 @@ def tabs() -> set:
     return tabs
 
 
-def update(panel: bpy.types.Panel):
+def update(panel: bpy.types.Panel, prefs: AddonPrefs):
     try:
         bpy.utils.unregister_class(panel)
     except:
-        print('-' * 50)
-        print(f'Failed to unregister {panel}')
-        traceback.print_exc()
-        print('-' * 50)
+        if prefs.debug:
+            print('-' * 50)
+            print(f'Failed to unregister {panel}')
+            traceback.print_exc()
+            print('-' * 50)
         return
 
     try:
         bpy.utils.register_class(panel)
     except:
-        print('-' * 50)
-        print(f'Failed to register {panel}')
-        traceback.print_exc()
-        print('-' * 50)
+        if prefs.debug:
+            print('-' * 50)
+            print(f'Failed to register {panel}')
+            traceback.print_exc()
+            print('-' * 50)
+        return

@@ -46,6 +46,13 @@ class AddonPrefs(bpy.types.AddonPreferences):
     )
 
 
+    debug: bpy.props.BoolProperty(
+        name='Debug',
+        description='Allow printing error messages in console',
+        default=False
+    )
+
+
     tab_items: bpy.props.CollectionProperty(type=props.tab.TabProps)
     tab_index: bpy.props.IntProperty(name='', description='Ignore the sentence above')
 
@@ -65,3 +72,7 @@ class AddonPrefs(bpy.types.AddonPreferences):
         split = column.split(factor=0.5)
         split.label(text='Exclude Tabs')
         split.prop(self, 'exclude_tabs', text='')
+
+        split = column.split(factor=0.5)
+        split.label(text='Debug')
+        split.prop(self, 'debug', text='')

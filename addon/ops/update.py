@@ -46,7 +46,7 @@ class Update(bpy.types.Operator):
 
             else:
                 for panel in panels_per_tab[tab.name]:
-                    utils.sidebar.update(panel)
+                    utils.sidebar.update(panel, prefs)
 
         self.report({'INFO'}, 'Updated sidebar tabs')
         return {'FINISHED'}
