@@ -28,7 +28,10 @@ def is_excluded(panel: bpy.types.Panel) -> bool:
 
 
 def module(panel: bpy.types.Panel) -> str:
-    return inspect.getmodule(panel).__name__.split('.')[0]
+    try:
+        return inspect.getmodule(panel).__name__.split('.')[0]
+    except:
+        utils.addon.popup('ERROR', f'{panel} has no module')
 
 
 def is_special(panel: bpy.types.Panel) -> bool:
@@ -64,8 +67,8 @@ def check(panel: bpy.types.Panel) -> bool:
     if getattr(panel, 'bl_parent_id', None):
         parent = getattr(bpy.types, panel.bl_parent_id, None)
 
-        if parent and not check(parent):
-            return False
+        if parent:
+            return check(parent)
 
     if getattr(panel, 'bl_space_type', None) != 'VIEW_3D':
         return False
@@ -97,8 +100,7 @@ def panels() -> list:
             if check(b):
                 panels.append(b)
 
-            for c in b.__subclasses__():
-                find_subclasses(c)
+            find_subclasses(b)
 
     find_subclasses(bpy.types.Panel)
 
